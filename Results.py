@@ -32,7 +32,7 @@ class Results:
         #race_idをkeyにしてDataFrame型を格納
         race_results = {}
         for race_id in tqdm(race_id_list):
-        time.sleep(1)
+            time.sleep(1)
             try:
                 url = "https://db.netkeiba.com/race/" + race_id
                 #メインとなるテーブルデータを取得

@@ -34,7 +34,7 @@ class Peds:
 
         peds_dict = {}
         for horse_id in tqdm(horse_id_list):
-        time.sleep(1)
+            time.sleep(1)
             try:
                 url = "https://db.netkeiba.com/horse/ped/" + horse_id
                 df = pd.read_html(url)[0]
