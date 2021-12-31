@@ -10,7 +10,7 @@ def scrape_race_results(race_id_list, pre_race_results={}):
     for race_id in tqdm(race_id_list):
         if race_id in race_results.keys():
             continue
-        print("race id is " + str(race_id))
+        # print("race id is " + str(race_id))
         time.sleep(1)
         try:
             url = "https://db.netkeiba.com/race/" + race_id
@@ -27,13 +27,14 @@ def scrape_race_results(race_id_list, pre_race_results={}):
 
 #レースIDのリストを作る
 race_id_list = []
-for place in range(1, 11, 1):
-    for kai in range(1, 6, 1):
-        for day in range(1, 13, 1):
-            for r in range(1, 13, 1):
-                race_id = "2019" + str(place).zfill(2) + str(kai).zfill(2) +\
-                str(day).zfill(2) + str(r).zfill(2)
-                race_id_list.append(race_id)
+for year in range(1980, 2022, 1):
+    for place in range(1, 11, 1):
+        for kai in range(1, 6, 1):
+            for day in range(1, 13, 1):
+                for r in range(1, 13, 1):
+                    race_id = str(year) + str(place).zfill(2) + str(kai).zfill(2) +\
+                    str(day).zfill(2) + str(r).zfill(2)
+                    race_id_list.append(race_id)
 
 #スクレイピングしてデータを保存
 test3 = scrape_race_results(race_id_list)

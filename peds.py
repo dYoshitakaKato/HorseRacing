@@ -13,9 +13,21 @@ import re
 from urllib.request import urlopen
 import optuna.integration.lightgbm as lgb_o
 from itertools import combinations, permutations
+import update_data
+from data_processor import DataProcessor
 
-#血統データを処理するクラス
 class Peds:
+    def __init__(self, peds):
+        self.peds = peds
+        self.peds_e = pd.DataFrame() #after label encoding and transforming into category
+
+    @classmethod
+    def read_pickle(cls, path_list):
+        df = pd.read_pickle(path_list[0])
+        for path in path_list[1:]:
+            df = update_data.update_data(df, pd.read_pickle(path))
+        return cls(df)
+
     @staticmethod
     def scrape(horse_id_list):
         """
@@ -34,7 +46,7 @@ class Peds:
 
         peds_dict = {}
         for horse_id in tqdm(horse_id_list):
-            time.sleep(0.5)
+            time.sleep(1)
             try:
                 url = "https://db.netkeiba.com/horse/ped/" + horse_id
                 df = pd.read_html(url)[0]
@@ -60,3 +72,9 @@ class Peds:
         peds_df = pd.concat([peds_dict[key] for key in peds_dict], axis=1).T.add_prefix('peds_')
 
         return peds_df
+
+    def encode(self):
+        df = self.peds.copy()
+        for column in df.columns:
+            df[column] = LabelEncoder().fit_transform(df[column].fillna('Na'))
+        self.peds_e = df.astype('category')

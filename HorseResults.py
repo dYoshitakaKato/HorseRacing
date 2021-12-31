@@ -35,7 +35,7 @@ class HorseResults:
         #horse_idをkeyにしてDataFrame型を格納
         horse_results = {}
         for horse_id in tqdm(horse_id_list):
-            time.sleep(1)
+            time.sleep(0.5)
             try:
                 url = 'https://db.netkeiba.com/horse/' + horse_id
                 df = pd.read_html(url)[3]
